@@ -1,3 +1,4 @@
+/*
 const data = [
   {
     id: 1,
@@ -133,12 +134,111 @@ const data = [
       },
     },
   },
-];
+]
 
 function getBooks() {
-  return data;
+  return data
 }
 
 function getBook(id) {
-  return data.find((d) => d.id === id);
+  return data.find((d) => d.id === id)
 }
+
+*/
+/*
+const book = getBook(3)
+console.log(book)
+
+function getTotalReviewCounst(book) {
+  const goodreads = book.reviews.goodreads.reviewsCount
+  const librarythings = book.reviews.librarything?.reviewsCount ?? 0
+  return goodreads + librarythings
+}
+console.log(getTotalReviewCounst(book))
+*/
+/*
+const books = getBooks()
+console.log(books)
+
+const x = [1, 2, 3].map((el) => el * 2)
+console.log(x)
+
+const titles = data.map((data) => data.title)
+titles
+
+function getTotalReviewCounst(book) {
+  const goodreads = book.reviews.goodreads.reviewsCount
+  const librarythings = book.reviews.librarything?.reviewsCount ?? 0
+  return goodreads + librarythings
+}
+
+//ถ้าอยากได้ มากกว่า อัน นอกจาก title
+
+const esentialData = books.map((book) => ({
+  title: book.title,
+  author: book.author,
+  googRead: getTotalReviewCounst(book),
+}))
+esentialData
+
+//filter methods
+const longBookAndMovie = books
+  .filter((book) => book.pages > 500)
+  .filter((book) => book.hasMovieAdaptation)
+longBookAndMovie
+
+//filter methods wiht include wiht map
+const adventureBook = books
+  .filter((book) => book.genres.includes("adventure"))
+  .map((book) => book.title) //จะเอาแค่ชื่อ
+
+adventureBook
+
+//reduce method
+const allPage = books.reduce((acc, book) => acc + book.pages, 0)
+console.log(allPage)
+
+//sort methods เป็น method ที่จะปรับเปลี่ยน array อันเดิม
+const y = [7, 2, 4, 4, 5]
+// const sortY = y.sort((a, b) => a - b)
+// sortY
+// how to resolve this use the slice methord before sort that make it new array
+const sortYY = y.slice().sort((a, b) => a - b)
+console.log(sortYY)
+y
+const sortedPagesBook = books.slice().sort((a, b) => b.pages - a.pages)
+sortedPagesBook
+
+const newBook = {
+  id: "6",
+  title: "Harry potter",
+  author: "J. K. Rowling",
+}
+//การเพิ่ม object ใหม่โดยไม่ได้เปลี่ยนแปลง array เดิม
+const booksAfterAdd = [...books, newBook]
+booksAfterAdd
+
+//delete object
+const booksAfterDelete = booksAfterAdd.filter((book) => book.id !== 3)
+booksAfterDelete
+
+//update content of object id 1 ให้เป็น {} ว่าง หรืออัพเดทแค่บางส่วน ก็แค่ ... ก่อนแล้วค่อย , ตำแหน่งนั้น ๆอัพเพท(...book, pages: 999)
+const booksAfterUpdate = booksAfterDelete.map((book) =>
+  book.id === 1 ? { ...book, pages: 9999 } : book
+)
+booksAfterUpdate
+*/
+fetch("https://jsonplaceholder.typicode.com/todos/")
+  .then((response) => response.json())
+  .then((json) => console.log(json))
+
+console.log("jonas")
+
+async function getTodos() {
+  const res = await fetch("https://jsonplaceholder.typicode.com/todos/1")
+  const data = await res.json()
+  // console.log(data)
+  return data
+}
+const todos = getTodos()
+console.log(todos)

@@ -1,3 +1,6 @@
+import React from "react"
+import ReactDOM from "react-dom/client"
+
 const pizzaData = [
   {
     name: "Focaccia",
@@ -41,4 +44,32 @@ const pizzaData = [
     photoName: "pizzas/prosciutto.jpg",
     soldOut: false,
   },
-];
+]
+
+function App() {
+  return (
+    <div>
+      <h1>Hello React</h1>
+      <Pizza />
+      <Pizza />
+      <Pizza />
+    </div>
+  )
+}
+
+function Pizza() {
+  return (
+    <div>
+      <img src="pizzas/spinaci.jpg" alt="Pizza spinaci" />
+      <h2>Pizza</h2>
+      <p alt={pizzaData.ingredients}>Tomato, mozarella, mushrooms, and onion</p>
+    </div>
+  )
+}
+
+const root = ReactDOM.createRoot(document.getElementById("root"))
+root.render(
+  <React.StrictMode>
+    <App />
+  </React.StrictMode>
+)
