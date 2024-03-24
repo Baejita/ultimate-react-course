@@ -72,41 +72,37 @@ function Header() {
 }
 
 function Menu() {
+  const pizzas = pizzaData;
+  // const pizzas = [];
+
+  //ทดสอบให้เป็นตัวเลข
+  const numPizza = pizzas.length; //จะได้ค่า 0 ต้องใส้คอนดิชั่นเช่น > < เข้าไปให้เป็น true หรือ false
   return (
     <main className="menu">
       <h2>Our Menu</h2>
-      <ul className="pizzas">
-        {pizzaData.map((pizza) => (
-          <Pizza
-            pizzaOject={pizza}
-            key={pizza.name}
-            // name={pizza.name}
-            // photoName={pizza.photoName}
-            // ingredients={pizza.ingredients}
-            // price={pizza.price}
-          />
-        ))}
-      </ul>
-
-      {/* <Pizza
-        name="Pizza spinaci"
-        ingredients="Tomato, mozarella, mushrooms, and onion"
-        photoName="pizzas/spinaci.jpg"
-        price={10}
-      />
-
-      <Pizza
-        name="Pizza funghi"
-        ingredients="Tomato, mushrooms, and onion"
-        photoName="pizzas/funghi.jpg"
-        price={19}
-      /> */}
+      {numPizza > 0 ? (
+        <ul className="pizzas">
+          {pizzas.map((pizza) => (
+            <Pizza
+              pizzaOject={pizza}
+              key={pizza.name}
+              // name={pizza.name}
+              // photoName={pizza.photoName}
+              // ingredients={pizza.ingredients}
+              // price={pizza.price}
+            />
+          ))}
+        </ul>
+      ) : (
+        <p>We're still working on our menu. Please come back later.</p>
+      )}
     </main>
   );
 }
 
 function Pizza(props) {
   // console.log(props);
+  if (props.pizzaOject.soldOut) return null;
   return (
     <li className="pizza">
       <img src={props.pizzaOject.photoName} alt={props.pizzaOject.name} />
@@ -123,7 +119,7 @@ function Pizza(props) {
 
 function Footer() {
   const hour = new Date().getHours();
-  const openHour = 12;
+  const openHour = 8;
   const closeHour = 22;
   const isOpen = hour >= openHour && hour <= closeHour;
   console.log(isOpen);
@@ -132,10 +128,26 @@ function Footer() {
 
   return (
     <footer className="footer">
-      {new Date().toLocaleTimeString()} We're currently have open.
+      {isOpen ? (
+        <Oder closeHour={closeHour} />
+      ) : (
+        <p>
+          We're happy to welcome you between {openHour}:00 - {closeHour}:00.
+        </p>
+      )}
     </footer>
   );
 
+  function Oder(props) {
+    return (
+      <div className="order">
+        <p>
+          We're open util {props.closeHour}:00. Come visit us or order online.
+        </p>
+        <button className="btn">Order Now</button>
+      </div>
+    );
+  }
   // React.createElement("footer", null, "We're currently have open.");
 }
 
