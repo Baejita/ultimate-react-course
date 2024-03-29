@@ -12,13 +12,17 @@ export default function App() {
     setItems((items) => [...items, item]);
   }
 
-  function handleDelelectItem(id) {
+  function handleDeleteItem(id) {
     console.log(id);
     setItems((items) => items.filter((item) => item.id !== id));
   }
 
   function handleToggleItem(id) {
-    setItems((items) => items.map(item => item.id === id ? (...item, packed: !item.packed) ));
+    setItems((items) =>
+      items.map((item) =>
+        item.id === id ? { ...item, packed: !item.packed } : item
+      )
+    );
   }
   return (
     <div className="app">
@@ -26,7 +30,7 @@ export default function App() {
       <Form onAddItems={handleAddItem} />
       <PackingList
         items={items}
-        onDeleteItem={handleDelelectItem}
+        onDeleteItem={handleDeleteItem}
         onToggleItem={handleToggleItem}
       />
       <Stats />
