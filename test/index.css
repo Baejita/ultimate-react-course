@@ -1,0 +1,32 @@
+/* App.css */
+.navbar {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 1rem;
+  background-color: #333;
+  color: #fff;
+}
+
+.navbar-logo img {
+  width: 50px;
+  /* Adjust size as needed */
+  height: auto;
+}
+
+.nav-links {
+  display: flex;
+  list-style-type: none;
+  gap: 1rem;
+}
+
+.nav-links li a {
+  color: #fff;
+  text-decoration: none;
+  transition: color 0.3s ease;
+}
+
+.nav-links li a:hover {
+  color: #ffd700;
+  /* Change color on hover */
+}
