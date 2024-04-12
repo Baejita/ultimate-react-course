@@ -1,4 +1,5 @@
 import { useEffect, useState } from "react";
+import StarRating from "./StarRating";
 
 const tempMovieData = [
   {
@@ -53,41 +54,77 @@ const average = (arr) =>
 const KEY = "c399018";
 
 export default function App() {
+  const [query, setQuery] = useState("inception");
   const [movies, setMovies] = useState([]);
   const [watched, setWatched] = useState([]);
   const [isloading, setIsLoading] = useState(false);
   const [error, setError] = useState("");
+  const [selectedID, setSelectedID] = useState(null);
 
-  const query = "asfaaf";
+  const tempquery = "interstellar";
 
-  useEffect(function () {
-    async function fethMovies() {
-      try {
-        setIsLoading(true);
-        const res = await fetch(
-          `http://www.omdbapi.com/?apikey=${KEY}&s=${query}`
-        );
-        if (!res.ok) throw new Error("Something went wrong with fetching");
+  // useEffect(function () {
+  //   console.log("After initial render");
+  // }, []);
 
-        const data = await res.json();
-        if (data.Response === "False") throw new Error(data.Error);
+  // useEffect(function () {
+  //   console.log("After every render");
+  // });
 
-        setMovies(data.Search);
-        console.log(data);
-      } catch (error) {
-        console.error(error.message);
-        setError(error.message);
-      } finally {
-        setIsLoading(false);
+  // console.log("During render");
+
+  // useEffect(
+  //   function () {
+  //     console.log("D");
+  //   },
+  //   [query]
+  // );
+  function handleSelectedMovie(id) {
+    setSelectedID((selectedID) => (selectedID === id ? null : id)); //ทำให้เวลากดที่เดิมซ้ำๆ จะปิดหน้าต่างได้
+  }
+  function handleCloseMovie() {
+    setSelectedID(null);
+  }
+
+  useEffect(
+    function () {
+      async function fethMovies() {
+        try {
+          setIsLoading(true);
+          setError("");
+          const res = await fetch(
+            `http://www.omdbapi.com/?apikey=${KEY}&s=${query}`
+          );
+          if (!res.ok) throw new Error("Something went wrong with fetching");
+
+          const data = await res.json();
+          if (data.Response === "False") throw new Error("Movie not found");
+
+          setMovies(data.Search);
+          console.log(data.Search);
+        } catch (error) {
+          console.error(error.message);
+          setError(error.message);
+        } finally {
+          setIsLoading(false);
+        }
       }
-    }
-    fethMovies();
-  }, []);
+      //วิธีทำให้ ตอนไม่มีการค้นหา ไม่แสดง error
+      if (query.length < 3) {
+        setError("");
+        setMovies([]);
+        return;
+      }
+
+      fethMovies();
+    },
+    [query]
+  );
 
   return (
     <>
       <NavBar>
-        <Search />
+        <Search query={query} setQuery={setQuery} />
         <Numresults movies={movies} />
       </NavBar>
       <Main>
@@ -103,14 +140,23 @@ export default function App() {
         <Box>
           {/* {isloading ? <Loading /> : <MovieList movies={movies} />} */}
           {isloading && <Loading />}
-          {!isloading && !error && <MovieList movies={movies} />}
+          {!isloading && !error && (
+            <MovieList movies={movies} onSelectedId={handleSelectedMovie} />
+          )}
           {error && <ErrorMessage message={error} />}
         </Box>
         <Box>
-          <>
-            <WatchSummary watched={watched} />
-            <WatchedMovieList watched={watched} />
-          </>
+          {selectedID ? (
+            <MovieDetail
+              selectedID={selectedID}
+              onCloseMovie={handleCloseMovie}
+            />
+          ) : (
+            <>
+              <WatchSummary watched={watched} />
+              <WatchedMovieList watched={watched} />
+            </>
+          )}
         </Box>
       </Main>
     </>
@@ -155,8 +201,7 @@ function Logo() {
     </div>
   );
 }
-function Search() {
-  const [query, setQuery] = useState("");
+function Search({ query, setQuery }) {
   return (
     <input
       className="search"
@@ -208,19 +253,19 @@ function Box({ children }) {
 //   );
 // }
 
-function MovieList({ movies }) {
+function MovieList({ movies, onSelectedId }) {
   return (
-    <ul className="list">
+    <ul className="list list-movies">
       {movies?.map((movie) => (
-        <Movie movie={movie} key={movie.imdbID} />
+        <Movie movie={movie} key={movie.imdbID} onSelectedId={onSelectedId} />
       ))}
     </ul>
   );
 }
 
-function Movie({ movie }) {
+function Movie({ movie, onSelectedId }) {
   return (
-    <li key={movie.imdbID}>
+    <li key={movie.imdbID} onClick={() => onSelectedId(movie.imdbID)}>
       <img src={movie.Poster} alt={`${movie.Title} poster`} />
       <h3>{movie.Title}</h3>
       <div>
@@ -230,6 +275,70 @@ function Movie({ movie }) {
         </p>
       </div>
     </li>
+  );
+}
+
+function MovieDetail({ selectedID, onCloseMovie }) {
+  const [movie, setMovie] = useState({});
+  const {
+    Title: title,
+    Year: year,
+    Poster: poster,
+    Runtime: runtime,
+    imdbRating,
+    Plot: plot,
+    Released: released,
+    Actors: actors,
+    Director: director,
+    Genre: genre,
+  } = movie;
+
+  console.log(title, year);
+
+  useEffect(
+    function () {
+      async function getMovieDetails() {
+        const res = await fetch(
+          `http://www.omdbapi.com/?apikey=${KEY}&i=${selectedID}`
+        );
+        const data = await res.json();
+        setMovie(data);
+      }
+      getMovieDetails();
+    },
+    [selectedID]
+  );
+
+  return (
+    <div className="details">
+      <header>
+        <button className="btn-back" onClick={onCloseMovie}>
+          &larr;
+        </button>
+        <img src={poster} alt={`Poster of ${movie} movie`} />
+        <div className="details-overview">
+          <h2>{title}</h2>
+          <p>
+            {released} &bull; {runtime}
+          </p>
+          <p>{genre}</p>
+          <p>
+            <span>⭐</span>
+            {imdbRating} IMDb rating
+          </p>
+        </div>
+      </header>
+      <section>
+        <div className="rating">
+          <StarRating maxRating={10} size={24} />
+        </div>
+        <p>
+          <em>{plot}</em>
+        </p>
+        <p>Staring {actors}</p>
+        <p>Directed by {director}</p>
+      </section>
+    </div>
   );
 }
 
