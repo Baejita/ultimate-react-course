@@ -25,7 +25,7 @@ export default function StarRating({
   size = 48,
   message = [],
   defualtRating = 0,
-  onsetRating,
+  onSetRating,
 }) {
   const [rating, setRating] = useState(defualtRating);
   const [tempRating, setTampRating] = useState(0);
@@ -39,7 +39,7 @@ export default function StarRating({
   };
   function handleRating(rating) {
     setRating(rating);
-    onsetRating(rating);
+    onSetRating(rating);
   }
   return (
     <div style={containerStyle}>
