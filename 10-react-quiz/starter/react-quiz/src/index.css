@@ -22,6 +22,8 @@ html {
     Ubuntu, Cantarell, "Open Sans", "Helvetica Neue", sans-serif;
 }
 
+
+
 body {
   min-height: 100vh;
   color: var(--color-light);
@@ -29,6 +31,11 @@ body {
   padding: 3.2rem;
 }
 
+/* @media only screen and (max-width: 768px) {
+  body {
+    background-color: yellowgreen;
+  }
+} */
 .app {
   display: flex;
   flex-direction: column;
