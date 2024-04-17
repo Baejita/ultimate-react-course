@@ -47,6 +47,7 @@ function reducer(state, action) {
       return {
         ...state,
         index: state.index + 1,
+        answer: null,
       };
     default:
       throw new Error("action unknown");
@@ -69,7 +70,10 @@ function App() {
   const numberOfQuestions = questions.length;
   console.log(numberOfQuestions);
   return (
-    <div>
+    <div className="app">
+      <h1 className="text-10xl bg-gradient-to-r from-cyan-500 to-blue-500 text-w bg-auto">
+        HELO React Use tailwindcss
+      </h1>
       <Header className="app" />
 
       <Main className="main">
