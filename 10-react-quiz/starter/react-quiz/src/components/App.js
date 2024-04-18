@@ -5,7 +5,13 @@ import Loader from "./Loader";
 import Error from "./Error";
 import StartScreen from "./StartScreen";
 import Questions from "./Questions";
+
+import Progress from "./Progress";
+import FinishScreen from "./FinishScreen";
+import Footer from "./Footer";
+import Timer from "./TImer";
 import NextButton from "./NextButton";
+
 const initailState = {
   questions: [],
 
@@ -14,7 +20,11 @@ const initailState = {
   index: 0,
   answer: null,
   points: 0,
+  highscore: 0,
+  secondsRemaining: null,
 };
+
+const SEC_PER_QUEST = 30;
 function reducer(state, action) {
   switch (action.type) {
     case "dataReceived":
@@ -32,6 +42,7 @@ function reducer(state, action) {
       return {
         ...state,
         status: "active",
+        secondsRemaining: state.questions.length * SEC_PER_QUEST,
       };
     case "newAnswer":
       const question = state.questions.at(state.index);
@@ -49,16 +60,36 @@ function reducer(state, action) {
         index: state.index + 1,
         answer: null,
       };
+    case "finish":
+      return {
+        ...state,
+        status: "finished",
+        highscore:
+          state.points > state.highscore ? state.points : state.highscore,
+      };
+    case "restart":
+      return {
+        ...initailState,
+        questions: state.questions,
+        status: "ready",
+      };
+    // return { ...state, index: 0, answer: null, points: 0, highscore: 0 , status: "ready" };
+    case "tick":
+      return {
+        ...state,
+        secondsRemaining: state.secondsRemaining - 1,
+        status: state.secondsRemaining === 0 ? "finished" : state.status,
+      };
     default:
       throw new Error("action unknown");
   }
 }
 
 function App() {
-  const [{ questions, status, index, answer }, dispatch] = useReducer(
-    reducer,
-    initailState
-  );
+  const [
+    { questions, status, index, answer, points, highscore, secondsRemaining },
+    dispatch,
+  ] = useReducer(reducer, initailState);
 
   useEffect(function () {
     fetch("http://localhost:8000/questions")
@@ -68,10 +99,14 @@ function App() {
   }, []);
 
   const numberOfQuestions = questions.length;
-  console.log(numberOfQuestions);
+  const maxPossiblePoints = questions.reduce(
+    (prev, cur) => prev + cur.points,
+    0
+  );
+
   return (
-    <div className="app">
-      <h1 className="text-10xl bg-gradient-to-r from-cyan-500 to-blue-500 text-w bg-auto">
+    <div className="app ">
+      <h1 className="text-10xl bg-gradient-to-r from-cyan-500 to-blue-500 text-w bg-auto ">
         HELO React Use tailwindcss
       </h1>
       <Header className="app" />
@@ -87,13 +122,38 @@ function App() {
         )}
         {status === "active" && (
           <>
+            <Progress
+              index={index}
+              numQuestions={numberOfQuestions}
+              points={points}
+              maxPossiblePoints={maxPossiblePoints}
+              answer={answer}
+            />
             <Questions
               question={questions[index]}
               dispatch={dispatch}
               answer={answer}
             />
-            <NextButton dispatch={dispatch} answer={answer} />
+            <Footer>
+              <Timer dispatch={dispatch} secondsRemaining={secondsRemaining} />
+              <NextButton
+                dispatch={dispatch}
+                answer={answer}
+                numQuestions={numberOfQuestions}
+                index={index}
+              />
+            </Footer>
           </>
+        )}
+
+        {status === "finished" && (
+          <FinishScreen
+            points={points}
+            maxPossiblePoints={maxPossiblePoints}
+            highscore={highscore}
+            dispatch={dispatch}
+            answer={answer}
+          />
         )}
       </Main>
     </div>
