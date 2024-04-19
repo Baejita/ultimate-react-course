@@ -1,0 +1,21 @@
+.nav {
+  background-color: orangered;
+}
+
+.nav ul {
+  display: flex;
+  justify-content: space-between;
+  list-style: none;
+
+}
+
+/*
+วิธีทำให้การใช้ css แบบ global แล้วนำไปใส่ใน className แบบ "test" แต่ปกติเราจะไม่ทำในนี้จะไปทำใน ไฟล์ index .css 
+*/
+/* :global(.test) {
+  background-color: red;
+}
+
+.nav :global(.active) {
+  background-color: green;
+} */
