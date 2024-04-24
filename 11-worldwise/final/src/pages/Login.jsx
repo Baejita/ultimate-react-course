@@ -52,7 +52,9 @@ export default function Login() {
         </div>
 
         <div>
-          <Button type="primary">Login</Button>
+          <Button type="primary" onClick={login}>
+            Login
+          </Button>
         </div>
       </form>
     </main>
