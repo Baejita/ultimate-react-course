@@ -13,18 +13,6 @@
       "id": "73930385"
     },
     {
-      "cityName": "Madrid",
-      "country": "Spain",
-      "emoji": "🇪🇸",
-      "date": "2027-07-15T08:22:53.976Z",
-      "notes": "",
-      "position": {
-        "lat": 40.46635901755316,
-        "lng": -3.7133789062500004
-      },
-      "id": "17806751"
-    },
-    {
       "cityName": "Berlin",
       "country": "Germany",
       "emoji": "🇩🇪",
@@ -37,15 +25,39 @@
       "id": "98443197"
     },
     {
-      "id": "25d4",
-      "cityName": "Pancrudo",
-      "country": "Spain",
-      "emoji": "🇪🇸",
-      "date": "2024-04-24T12:18:06.746Z",
+      "id": "cdcd",
+      "cityName": "Bang Pahan",
+      "country": "Thailand",
+      "emoji": "🇹🇭",
+      "date": "2024-04-24T16:13:54.431Z",
+      "notes": "ใกล้ ๆบ้านพี่ปู",
+      "position": {
+        "lat": "14.481119349426297",
+        "lng": "100.55259346961977"
+      }
+    },
+    {
+      "id": "fb83",
+      "cityName": "Wiang Pa Pao",
+      "country": "Thailand",
+      "emoji": "🇹🇭",
+      "date": "2024-04-24T16:19:12.786Z",
       "notes": "",
       "position": {
-        "lat": "40.79481160874557",
-        "lng": "-0.9659509709143222"
+        "lat": "19.290405639497994",
+        "lng": "99.51685782551446"
+      }
+    },
+    {
+      "id": "a9b9",
+      "cityName": "Sai Ngam",
+      "country": "Thailand",
+      "emoji": "🇹🇭",
+      "date": "2024-04-14T16:19:27.000Z",
+      "notes": "",
+      "position": {
+        "lat": "16.3833911236084",
+        "lng": "99.78043195887444"
       }
     }
   ]
