@@ -1,7 +1,6 @@
-import { useEffect, useState } from "react";
+import { memo, useEffect, useState } from "react";
 import { faker } from "@faker-js/faker";
 import { PostProvider, usePosts } from "./PostContext";
-import Test from "./Test";
 
 function createRandomPost() {
   return {
@@ -10,11 +9,10 @@ function createRandomPost() {
   };
 }
 
-// 1) CREATE A CONTEXT
-
 function App() {
   // Whenever `isFakeDark` changes, we toggle the `fake-dark-mode` class on the HTML element (see in "Elements" dev tool).
   const [isFakeDark, setIsFakeDark] = useState(false);
+
   useEffect(
     function () {
       document.documentElement.classList.toggle("fake-dark-mode");
@@ -23,7 +21,6 @@ function App() {
   );
 
   return (
-    // 2) PROVIDE VALUE TO CHILD COMPONENTS
     <section>
       <button
         onClick={() => setIsFakeDark((isFakeDark) => !isFakeDark)}
@@ -78,14 +75,14 @@ function Results() {
   return <p>🚀 {posts.length} atomic posts found</p>;
 }
 
-function Main() {
+const Main = memo(function Main() {
   return (
     <main>
       <FormAddPost />
       <Posts />
     </main>
   );
-}
+});
 
 function Posts() {
   return (
@@ -138,6 +135,7 @@ function List() {
           </li>
         ))}
       </ul>
+
       {/* <Test /> */}
     </>
   );
