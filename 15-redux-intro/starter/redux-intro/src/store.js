@@ -1,15 +1,11 @@
-import { applyMiddleware, combineReducers, createStore } from "redux";
-import { thunk } from "redux-thunk";
-import accountReducer from "./features/accounts/accountSlice";
 import customerReducer from "./features/customers/customerSlice";
-import { composeWithDevTools } from "redux-devtools-extension";
-const rootReducer = combineReducers({
-  account: accountReducer, // accountคือชื่อที่แสดงใน console เปลี่ยนได้
-  customer: customerReducer,
-});
+import { configureStore } from "@reduxjs/toolkit";
+import accountReducer from "./features/accounts/accountSlice";
 
-const store = createStore(
-  rootReducer,
-  composeWithDevTools(applyMiddleware(thunk))
-);
+const store = configureStore({
+  reducer: {
+    account: accountReducer,
+    customer: customerReducer,
+  },
+});
 export default store;
