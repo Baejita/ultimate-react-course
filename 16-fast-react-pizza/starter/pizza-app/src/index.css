@@ -6,28 +6,61 @@
    .input{
     @apply w-full rounded-full border border-stone-200 px-4 py-2 text-sm transition-all duration-300  text-stone-500 focus:outline-none focus:ring focus:ring-yellow-400 md:px-6
    }
+
+     .loader {
+       width: 45px;
+       aspect-ratio: 0.75;
+       --c: no-repeat linear-gradient(theme(colors.stone.500) 0 0);
+       background: var(--c) 0% 50%, var(--c) 50% 50%, var(--c) 100% 50%;
+       background-size: 20% 50%;
+       animation: loading 1s infinite linear;
+     }
+  
+     @keyframes loading {
+       20% {
+         background-position: 0% 0%, 50% 50%, 100% 50%;
+       }
+  
+       40% {
+         background-position: 0% 100%, 50% 0%, 100% 50%;
+       }
+  
+       60% {
+         background-position: 0% 50%, 50% 100%, 100% 0%;
+       }
+  
+       80% {
+         background-position: 0% 50%, 50% 50%, 100% 100%;
+       }
+     }
 }
 /* https://dev.to/afif/i-made-100-css-loaders-for-your-next-project-4eje */
-.loader {
-  width: 45px;
-  aspect-ratio: 0.75;
-  --c: no-repeat linear-gradient(#333 0 0);
-  background: var(--c) 0% 50%, var(--c) 50% 50%, var(--c) 100% 50%;
-  background-size: 20% 50%;
-  animation: loading 1s infinite linear;
+
+.spinner-4 {
+  width: 50px;
+  aspect-ratio: 1;
+  display: grid;
+  animation: s4 4s infinite;
 }
 
-@keyframes loading {
-  20% {
-    background-position: 0% 0%, 50% 50%, 100% 50%;
-  }
-  40% {
-    background-position: 0% 100%, 50% 0%, 100% 50%;
-  }
-  60% {
-    background-position: 0% 50%, 50% 100%, 100% 0%;
-  }
-  80% {
-    background-position: 0% 50%, 50% 50%, 100% 100%;
+.spinner-4::before,
+.spinner-4::after {
+  content: "";
+  grid-area: 1/1;
+  border: 8px solid;
+  border-radius: 50%;
+  border-color: rgb(255, 153, 0) rgb(255, 98, 0) #0000 #0000;
+  mix-blend-mode: darken;
+  animation: s4 1s infinite linear;
+}
+
+.spinner-4::after {
+  border-color: #0000 #0000 rgb(0, 229, 255) rgb(0, 28, 105);
+  animation-direction: reverse;
+}
+
+@keyframes s4 {
+  100% {
+    transform: rotate(1turn)
   }
 }
