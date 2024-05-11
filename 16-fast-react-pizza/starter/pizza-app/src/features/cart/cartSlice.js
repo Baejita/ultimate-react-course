@@ -25,14 +25,15 @@ const cartSlice = createSlice({
       state.cart = state.cart.filter((item) => item.pizzaId !== action.payload);
     },
     increaseItemQuantity(state, action) {
-      const item = state.cart.find((item) => item.pizzaId !== action.payload);
+      // payload = pizzaId
+      const item = state.cart.find((item) => item.pizzaId === action.payload);
 
       item.quantity++;
       item.totalPrice = item.quantity * item.unitPrice;
     },
-    decreateItemQuantity(state, action) {
-      // payload = pizza id;
-      const item = state.cart.find((item) => item.pizzaId !== action.payload);
+    decreaseItemQuantity(state, action) {
+      // payload = pizzaId
+      const item = state.cart.find((item) => item.pizzaId === action.payload);
 
       item.quantity--;
       item.totalPrice = item.quantity * item.unitPrice;
@@ -47,7 +48,7 @@ export const {
   addItem,
   deleteItem,
   increaseItemQuantity,
-  decreateItemQuantity,
+  decreaseItemQuantity,
   clearCart,
 } = cartSlice.actions;
 
