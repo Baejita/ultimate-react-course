@@ -11,7 +11,7 @@ import { useCreateCabin } from "./useCreateCabin";
 
 import { useEditCabin } from "./useEditCabin";
 function CreateCabinForm({ cabinToEdit = {} }) {
-  const { isCreating, creteCabin } = useCreateCabin();
+  const { isCreating, createCabin } = useCreateCabin();
   const { isEditing, editCabin } = useEditCabin();
   const isWorking = isCreating || isEditing;
 
@@ -38,7 +38,7 @@ function CreateCabinForm({ cabinToEdit = {} }) {
         }
       );
     else
-      creteCabin(
+      createCabin(
         {
           ...data,
           image: image,
