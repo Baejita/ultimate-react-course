@@ -68,8 +68,17 @@ const Table = styled.div`
   overflow: hidden;
 `;
 
-function Table() {
-  return <div></div>;
-}
+function Table({ coloums, children }) {}
+
+function Header({ children }) {}
+
+function Row({ children }) {}
+
+function Body({ children }) {}
+
+Table.Header = Header;
+Table.Body = Body;
+Table.Row = Row;
+Table.Footer = Footer;
 
 export default Table;
