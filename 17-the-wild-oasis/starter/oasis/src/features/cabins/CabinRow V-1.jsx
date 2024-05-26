@@ -8,6 +8,18 @@ import Modal from "../../ui/Modal";
 import ConfirmDelete from "../../ui/ConfirmDelete";
 import Table from "../../ui/Table";
 import Menus from "../../ui/Menus";
+
+<Menus.Menu>
+  <Menus.Toggle id={cabinId} />
+
+  <Menus.List id={cabinId}>
+    <Menus.Button icon={<HiSquare2Stack />} onClick={handleDuplucate}>
+      Duplicate
+    </Menus.Button>
+    <Menus.Button icon={<HiPencil />}>Edit</Menus.Button>
+    <Menus.Button icon={<HiTrash />}>Delete</Menus.Button>
+  </Menus.List>
+</Menus.Menu>;
 // const TableRow = styled.div`
 //   display: grid;
 //   grid-template-columns: 0.6fr 1.8fr 2.2fr 1fr 1fr 1fr;
@@ -85,28 +97,26 @@ function CabinRow({ cabin }) {
       )}
 
       <div>
+        <button disabled={isCreating} onClick={handleDuplucate}>
+          <HiSquare2Stack />
+        </button>
+
         <Modal>
-          <Menus.Menu>
-            <Menus.Toggle id={cabinId} />
-
-            <Menus.List id={cabinId}>
-              <Menus.Button icon={<HiSquare2Stack />} onClick={handleDuplucate}>
-                Duplicate
-              </Menus.Button>
-
-              <Modal.Open opens="edit">
-                <Menus.Button icon={<HiPencil />}>Edit</Menus.Button>
-              </Modal.Open>
-
-              <Modal.Open opens="delete">
-                <Menus.Button icon={<HiTrash />}>Delete</Menus.Button>
-              </Modal.Open>
-            </Menus.List>
-          </Menus.Menu>
+          <Modal.Open opens="edit">
+            <button>
+              <HiPencil></HiPencil>
+            </button>
+          </Modal.Open>
 
           <Modal.Window name="edit">
             <CreateCabinForm cabinToEdit={cabin} />
           </Modal.Window>
+
+          <Modal.Open opens="delete">
+            <button onClick={() => deleteCabin(cabinId)} disabled={isDeleting}>
+              <HiTrash />
+            </button>
+          </Modal.Open>
 
           <Modal.Window name="delete">
             <ConfirmDelete
@@ -116,6 +126,18 @@ function CabinRow({ cabin }) {
             ></ConfirmDelete>
           </Modal.Window>
         </Modal>
+
+        <Menus.Menu>
+          <Menus.Toggle id={cabinId} />
+
+          <Menus.List id={cabinId}>
+            <Menus.Button icon={<HiSquare2Stack />} onClick={handleDuplucate}>
+              Duplicate
+            </Menus.Button>
+            <Menus.Button icon={<HiPencil />}>Edit</Menus.Button>
+            <Menus.Button icon={<HiTrash />}>Delete</Menus.Button>
+          </Menus.List>
+        </Menus.Menu>
       </div>
     </Table.Row>
   );
